@@ -2,6 +2,7 @@ package com.api.tod.services;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -38,6 +39,10 @@ public class WhiteListService implements DisposableBean{
 	
 	public boolean removeId(UUID id) {
 		return removeId(id.toString());
+	}
+	
+	public List<String> getWhitelist() {
+		return new ArrayList<>(whitelist);
 	}
 
 	@Override

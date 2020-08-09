@@ -40,9 +40,7 @@ public class TodController extends BaseTodController<Tod>{
 			dto.setChallenge(challenge.getKey());
 			dto.setRepetitions(r.nextInt(challenge.getValue() + 1));
 		}
-		
-		return dto;
-		
+		return dto;	
 	}
 	
 	@Override
