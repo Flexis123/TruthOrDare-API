@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.security.SecureRandom;
 import java.util.List;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,18 +22,13 @@ public class ServiceConfig {
 		return Paths.get(curDir, "whitelist.txt");
 	}
 	
-	@Bean(name = "whitelist")
-	public List<String> getWhitelist() throws IOException{
-		List<String> lines = Files.readAllLines(getWhitelistPath());
+	@Bean
+	public Moderator getAdmin() {
 		
-		String adminId;
-		if(lines.size() == 0) {
-			adminId = UUID.randomUUID().toString();
-			lines.add(adminId);
-		}else {
-			adminId = lines.get(0);
-		}
-		return lines;
-		
+	}
+	
+	@Bean
+	public SecureRandom getGenerator() {
+		return new SecureRandom();
 	}
 }

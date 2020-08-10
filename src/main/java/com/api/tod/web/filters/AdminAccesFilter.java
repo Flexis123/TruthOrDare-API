@@ -13,14 +13,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
-import com.api.tod.services.WhiteListService;
+import com.api.tod.services.ModeratorService;
 
 @Component
 @Order(3)
 public class AdminAccesFilter extends HttpFilter{
 	
 	@Autowired
-	private WhiteListService wh;
+	private ModeratorService wh;
 	
 	HashSet<String> doFilter = new HashSet<String>() {{
 		add("/wh");

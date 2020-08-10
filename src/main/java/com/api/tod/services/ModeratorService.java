@@ -12,7 +12,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 @Service
-public class WhiteListService implements DisposableBean{
+public class ModeratorService implements DisposableBean{
 	
 	@Autowired
 	@Qualifier("whitelist")

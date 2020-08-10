@@ -10,14 +10,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.api.tod.services.WhiteListService;
+import com.api.tod.services.ModeratorService;
 
 @RestController
 @RequestMapping("/wh")
 public class WhiteListController {
 	
 	@Autowired
-	WhiteListService wh;
+	ModeratorService wh;
 	
 	@PostMapping("/new_id")
 	public void addNewId() {

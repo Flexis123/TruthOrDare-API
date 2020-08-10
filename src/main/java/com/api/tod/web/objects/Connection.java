@@ -4,14 +4,19 @@ import java.time.Instant;
 
 public class Connection {
 	private int requests = 1;
-	private Long timestamp;
+	private long timestamp;
+	private long lastRequestTimestamp;
 	
-	public Connection(Long timestamp) {
+	public Connection(long timestamp) {
 		this.timestamp = timestamp;
 	}
 
 	public Connection() {
-		this.timestamp = Instant.now().getEpochSecond();
+		this.timestamp = timestampNow();
+	}
+	
+	private long timestampNow() {
+		return Instant.now().getEpochSecond();
 	}
 
 	public int getRequests() {
@@ -19,10 +24,15 @@ public class Connection {
 	}
 	
 	public void incrementRequests() {
+		this.lastRequestTimestamp = this.timestampNow();
 		requests++;
 	}
 
-	public long getTimestampSeconds() {
-		return timestamp;
+	public long getAliveForSeconds() {
+		return this.timestampNow() - timestamp;
+	}
+	
+	public long getInactiveForSeconds() {
+		return this.timestampNow() - this.lastRequestTimestamp;
 	}
 }

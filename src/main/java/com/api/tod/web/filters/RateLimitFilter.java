@@ -1,7 +1,6 @@
 package com.api.tod.web.filters;
 
 import java.io.IOException;
-import java.time.Instant;
 import java.util.HashMap;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -29,11 +28,9 @@ public class RateLimitFilter extends HttpFilter{
 		if(conn != null) {
 			conn.incrementRequests();
 			
-			long delta = Instant.now().getEpochSecond() - conn.getTimestampSeconds();
+			long delta = conn.getAliveForSeconds();
 			long curMin = (delta / 60) + 1;
 			long allowedRequests = curMin * requestsPerMin;
-			
-			System.err.println(curMin);
 			
 			if(conn.getRequests() <= allowedRequests) {
 				filterChain.doFilter(request, response);

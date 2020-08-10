@@ -1,12 +1,5 @@
 package com.api.tod;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.List;
-import java.util.UUID;
-
 import org.modelmapper.ModelMapper;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -15,6 +8,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 @SpringBootApplication
@@ -23,6 +17,7 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 @EntityScan("com.api.tod.db.models")
 @ComponentScan("com.api.tod")
 @EnableWebMvc
+@EnableScheduling
 public class TruthOrDareApplication {
 
 	public static void main(String[] args) {
@@ -37,6 +32,5 @@ public class TruthOrDareApplication {
 	@Bean
 	public String getCurDir() {
 		return System.getProperty("user.dir");
-	}
-	
+	}	
 }

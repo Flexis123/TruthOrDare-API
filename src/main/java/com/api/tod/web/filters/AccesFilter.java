@@ -12,7 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
-import com.api.tod.services.WhiteListService;
+import com.api.tod.services.ModeratorService;
 
 @Component
 @Order(2)
@@ -26,7 +26,7 @@ public class AccesFilter extends HttpFilter{
 	}};
 	
 	@Autowired
-	WhiteListService whitelist;
+	ModeratorService whitelist;
 	
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
