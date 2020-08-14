@@ -1,52 +1,39 @@
 package com.api.tod.services;
 
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
-import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.api.tod.db.models.Moderator;
+import com.api.tod.db.repositories.ModeratorRepo;
 
 @Service
-public class ModeratorService implements DisposableBean{
+public class ModeratorService{
 	
 	@Autowired
-	@Qualifier("whitelist")
-	private List<String> whitelist;
+	private ModeratorRepo rep;
 	
 	@Autowired
-	private Path p;
+	private Moderator admin;
 	
-	public boolean isIn(String id) {
-		return whitelist.contains(id);
-	}
-	
-	public boolean isAdmin(String id) {
-		return whitelist.get(0).equals(id);	
+	public boolean isAdmin(String username, UUID token) {
+		return admin.equals(new Moderator(username, token));
 	}
 	
-	public boolean appendId() {
-		return whitelist.add(UUID.randomUUID().toString());
+	public boolean isAdmin(String username, String token) {
+		return isAdmin(username, UUID.fromString(token));
 	}
 	
-	public boolean removeId(String id) {
-		return whitelist.remove(id);
+	@Transactional
+	public boolean isModerator(String username,UUID token) {
+		return rep.exists(Example.of(new Moderator(username, token))) || isAdmin(username, token);
 	}
 	
-	public boolean removeId(UUID id) {
-		return removeId(id.toString());
+	public boolean isModerator(String username, String token) {
+		return isModerator(username, UUID.fromString(token));
 	}
 	
-	public List<String> getWhitelist() {
-		return new ArrayList<>(whitelist);
-	}
-
-	@Override
-	public void destroy() throws Exception {
-		Files.write(p, whitelist);
-	}
 }

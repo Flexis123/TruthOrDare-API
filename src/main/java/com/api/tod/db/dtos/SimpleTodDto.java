@@ -1,10 +1,6 @@
 package com.api.tod.db.dtos;
 
-
-import com.api.tod.db.models.TodProposed;
 import com.api.tod.db.models.TodType;
-import com.fasterxml.jackson.annotation.JsonTypeName;
-
 
 public class SimpleTodDto{
 	private String content;

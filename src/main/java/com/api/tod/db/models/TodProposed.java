@@ -43,7 +43,9 @@ public class TodProposed{
 	}
 
 	public void setContent(String content) {
-		this.content = content;
+		if(content.length() > 75) {
+			throw new IllegalArgumentException("content cannot be longer than 75 characters");
+		}
 	}
 
 	public TodType getType() {

@@ -7,16 +7,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.api.tod.db.models.TodProposed;
+import com.api.tod.db.repositories.BaseTodRepo;
 
 @RestController
 @RequestMapping("/tod_proposed")
 public class TodProposedController extends BaseTodController<TodProposed>{
 	
-	@Autowired
-	public TodProposedController(JpaRepository<TodProposed, Integer> rep, ModelMapper mapper) {
-		super(rep, mapper);
-	}
-
 	@Override
 	public Class<TodProposed> getEntityType() {
 		return TodProposed.class;

@@ -1,30 +1,31 @@
 package com.api.tod.services;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.security.SecureRandom;
-import java.util.List;
-import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
+
+import com.api.tod.db.models.Moderator;
+import com.api.tod.db.repositories.ModeratorRepo;
 
 @Configuration
+@PropertySource("classpath:admin.properties")
 public class ServiceConfig {
 	
 	@Autowired
-	private String curDir;
+	ModeratorRepo mod;
 	
-	@Bean
-	public Path getWhitelistPath() {
-		return Paths.get(curDir, "whitelist.txt");
-	}
+	@Value("${admin.username}")
+	private String name;
 	
 	@Bean
 	public Moderator getAdmin() {
-		
+		return mod.findById(name).orElseGet(() -> {
+			mod.save(new Moderator(name));
+			return mod.findById(name).get();
+		});
 	}
 	
 	@Bean

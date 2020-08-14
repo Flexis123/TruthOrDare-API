@@ -2,17 +2,17 @@ package com.api.tod.db.dtos;
 
 import com.api.tod.db.models.TodType;
 
-public class GameTodDto extends SimpleTodDto{
+public class GameTod extends SimpleTodDto{
 	private String challenge;
 	private Integer repetitions;
 	
-	public GameTodDto(String content, TodType type, String challenge, Integer repetitions) {
+	public GameTod(String content, TodType type, String challenge, Integer repetitions) {
 		super(content, type);
 		this.challenge = challenge;
 		this.repetitions = repetitions;
 	}
 	
-	public GameTodDto() {
+	public GameTod() {
 		super();
 	}
 
@@ -21,6 +21,9 @@ public class GameTodDto extends SimpleTodDto{
 	}
 
 	public void setChallenge(String challenge) {
+		if(challenge.length() > 35) {
+			throw new IllegalArgumentException("challenge cannot have more than 35 characters");
+		}
 		this.challenge = challenge;
 	}
 
@@ -29,6 +32,9 @@ public class GameTodDto extends SimpleTodDto{
 	}
 
 	public void setRepetitions(Integer repetitions) {
+		if(repetitions < 1) {
+			throw new IllegalArgumentException("repetitions cannot be less than 1!!");
+		}
 		this.repetitions = repetitions;
 	}
 	

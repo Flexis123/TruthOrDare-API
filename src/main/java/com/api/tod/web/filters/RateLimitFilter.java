@@ -7,10 +7,10 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
-
 import com.api.tod.web.objects.Connection;
 
 @Component
@@ -18,7 +18,9 @@ import com.api.tod.web.objects.Connection;
 public class RateLimitFilter extends HttpFilter{
 	
 	public static HashMap<String, Connection> connections = new HashMap<>();
-	public static final int requestsPerMin = 12;
+	
+	@Value("${rate.limiter.requestPerMin}")
+	private int requestsPerMin = 12;
 
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)

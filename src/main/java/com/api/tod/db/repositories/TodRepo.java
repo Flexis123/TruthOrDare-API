@@ -4,6 +4,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.api.tod.db.models.Tod;
 
-public interface TodRepo extends JpaRepository<Tod, Integer>{
+public interface TodRepo extends JpaRepository<Tod, Integer>, BaseTodRepo<Tod> {
 
 }
