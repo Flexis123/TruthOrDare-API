@@ -31,10 +31,15 @@ public abstract class BaseAccesFilter extends HttpFilter{
 		String token = Optional.ofNullable(request.getHeader(tokenHeader)).orElse("");
 		String user = Optional.ofNullable(request.getHeader(userHeader)).orElse("");
 		
+		if(request.getRequestURI().contains("/newModerators")) {
+			System.out.println(request.getRequestURI());
+		}
+	
 		if(this.doFilterChainIf(user, token, mod)) {
 			filterChain.doFilter(request, response);
 		}else {
-			response.sendError(HttpStatus.UNAUTHORIZED.value(), "only admin and mods can acces this route");
+			System.out.println(request.getRequestURI());
+			response.sendError(HttpStatus.UNAUTHORIZED.value(), "only admin or mods can acces this route");
 		}
 	}
 	

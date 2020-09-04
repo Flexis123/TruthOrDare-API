@@ -15,7 +15,6 @@ public class AccesFilter extends BaseAccesFilter{
 		add("/delete");
 		add("/get");
 		add("/tod/add");
-		add("/props");
 	}};
 	
 	@Override

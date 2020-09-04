@@ -22,7 +22,11 @@ public class Moderator {
 	}
 
 	public Moderator(String username) {
-		this.username = username;
+		if(username.length() < 25) {
+			this.username = username;
+		}else {
+			throw new IllegalArgumentException("username cannot be longer than 25 characters");
+		}
 		this.newToken();
 	}
 

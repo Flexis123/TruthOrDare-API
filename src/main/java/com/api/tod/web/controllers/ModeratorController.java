@@ -1,16 +1,18 @@
 package com.api.tod.web.controllers;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
+import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.domain.Example;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -36,14 +38,17 @@ public class ModeratorController {
 	@Value("${pagination.modPageLength}")
 	Integer len;
 	
-	@PostMapping("/newModerator")
-	public void addNewModerator(@RequestHeader("name") String name) {
-		rep.save(new Moderator(name));
+	@PostMapping("/newModerators")
+	public void addNewModerator(@RequestBody List<String> name) {
+		rep.saveAll(name.stream()
+				.map(s -> new Moderator(s))
+				.collect(Collectors.toList())
+		);
 	}
 	
-	@DeleteMapping("/remove")
-	public void remove(@RequestBody Moderator mod) {
-		rep.delete(mod);
+	@DeleteMapping("/remove_moderators")
+	public void remove(@RequestBody List<Moderator> mod) {
+		rep.deleteAll(mod);
 	}
 	
 	@GetMapping("/getModerators")
@@ -54,9 +59,27 @@ public class ModeratorController {
 	}
 	
 	@GetMapping("/login")
-	public void login(@RequestBody Moderator mod){
-		rep.findOne(Example.of(mod))
+	public Moderator login(@RequestBody Moderator mod){
+		Moderator m = rep.findById(mod.getUsername())
 			.orElseThrow(() -> new HttpException(HttpStatus.UNAUTHORIZED, "username does not exist"));	
 		
+		if(!m.getToken().equals(mod.getToken())) {
+			throw new HttpException(HttpStatus.UNAUTHORIZED, "invalid token");
+		}
+		return m;
+	}
+	
+	@GetMapping("/newTokens")
+	public List<UUID> newToken(@RequestBody List<String> names) {
+		
+		List<UUID> uuids = new ArrayList<>();
+		names.forEach(name -> {
+			Moderator mod = rep.findById(name)
+					.orElseThrow(() -> new HttpException(HttpStatus.NOT_FOUND, "username does not exist"));
+			
+			mod.newToken();
+			uuids.add(mod.getToken());
+		});
+		return uuids;
 	}
 }

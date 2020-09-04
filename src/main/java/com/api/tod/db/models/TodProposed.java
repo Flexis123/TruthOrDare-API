@@ -26,13 +26,12 @@ public class TodProposed{
 
 	public TodProposed(Integer id, String content, TodType type) {
 		this.id = id;
-		this.content = content;
+		this.setContent(content);
 		this.type = type;
 	}
 
 	public TodProposed(String content, TodType type) {
-		this.content = content;
-		this.type = type;
+		this(null, content, type);
 	}
 
 	public TodProposed() {

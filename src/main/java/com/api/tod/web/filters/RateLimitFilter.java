@@ -21,8 +21,9 @@ public class RateLimitFilter extends HttpFilter{
 	
 	@Value("${rate.limiter.requestPerMin}")
 	private int requestsPerMin = 12;
-
+	
 	@Override
+	
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
 			throws ServletException, IOException {
 		Connection conn = connections.get(request.getRemoteAddr());

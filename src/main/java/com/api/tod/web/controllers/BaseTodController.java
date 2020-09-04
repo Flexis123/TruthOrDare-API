@@ -91,8 +91,8 @@ public abstract class BaseTodController<EN extends TodProposed>{
 	
 	@DeleteMapping("/delete")
 	@Transactional
-	public void delete(@RequestParam("id") Integer id) {
-		rep.deleteById(id);
+	public void delete(@RequestBody List<EN> tods) {
+		rep.deleteAll(tods);
 	}
 	
 	public abstract Class<EN> getEntityType();

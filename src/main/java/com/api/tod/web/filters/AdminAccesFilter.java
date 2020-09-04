@@ -14,6 +14,7 @@ public class AdminAccesFilter extends BaseAccesFilter{
 		add("/wh/newModerator");
 		add("/wh/remove");
 		add("/wh/getModerators");
+		add("/wh/newToken");
 	}};
 	
 	@Override

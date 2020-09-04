@@ -12,9 +12,11 @@ import com.api.tod.Util;
 @RequestMapping("/props")
 public class ApiPropsController {
 	
-	@GetMapping("/pagination")
+	@GetMapping("/mod")
 	public Properties getPagination() {
-		return Util.loadPropertiesClassPath("pagination.properties");
+		Properties props = Util.loadPropertiesClassPath("pagination.properties");
+		props.putAll(Util.loadPropertiesClassPath("admin.properties"));
+		return props;
 	}
 	
 }
